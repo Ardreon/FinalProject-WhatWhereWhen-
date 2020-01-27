@@ -9,11 +9,13 @@ public class User {
     private final Integer id;
     private final String email;
     private final String password;
+    private final Integer accountID;
 
     private User(Builder builder) {
         this.id = builder.id;
         this.email = builder.email;
         this.password = builder.password;
+        this.accountID = builder.accountID;
     }
 
     public Integer getId() {
@@ -28,6 +30,9 @@ public class User {
         return password;
     }
 
+    public Integer getAccountID() {
+        return accountID;
+    }
 
 
     public static Builder builder() {
@@ -45,12 +50,13 @@ public class User {
         User user = (User) o;
         return Objects.equals(id, user.id) &&
                 Objects.equals(email, user.email) &&
-                Objects.equals(password, user.password);
+                Objects.equals(password, user.password) &&
+                Objects.equals(accountID, user.accountID);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, email, password);
+        return Objects.hash(id, email, password, accountID);
     }
 
     @Override
@@ -58,14 +64,16 @@ public class User {
         return "User{" +
                 "id=" + id +
                 ", email='" + email + '\'' +
-                ", password='" + "[********]" + '\'' +
-                " '}' ";
+                ", password='" + password + '\'' +
+                ", accountID=" + accountID +
+                '}';
     }
 
     public static class Builder {
         private Integer id;
         private String email;
         private String password;
+        private Integer accountID;
 
         private Builder() {
         }
@@ -89,6 +97,10 @@ public class User {
             return this;
         }
 
+        public Builder withAccountID(Integer accountID) {
+            this.accountID = accountID;
+            return this;
+        }
 
         }
     }
