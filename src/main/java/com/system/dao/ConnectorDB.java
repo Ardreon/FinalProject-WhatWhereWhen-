@@ -12,9 +12,9 @@ public class ConnectorDB {
 
     public ConnectorDB(String filename) {
         ResourceBundle resource = ResourceBundle.getBundle(filename);
-        this.url = resource.getString("db.url");
-        this.user = resource.getString("db.user");
-        this.password = resource.getString("db.password");
+        this.url = resource.getString("jdbc:mysql://localhost:3306/mysql?useSSL=false");
+        this.user = resource.getString("root");
+        this.password = resource.getString("admin");
     }
 
     public Connection getConnection() throws SQLException {

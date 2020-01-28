@@ -1,26 +1,45 @@
 package com.system.domain;
 
-import java.util.List;
-import java.util.Objects;
-
-import static com.system.utility.CollectionUtility.nullSafeListInitialize;
+import java.util.Set;
 
 public class User {
-    private final Integer id;
+    private final Long id;
+    private final String name;
     private final String email;
     private final String password;
-    private final Integer accountID;
+    private final Set<Role> roles;
 
     private User(Builder builder) {
         this.id = builder.id;
+        this.name = builder.name;
         this.email = builder.email;
         this.password = builder.password;
-        this.accountID = builder.accountID;
+        this.roles = builder.roles;
     }
 
-    public Integer getId() {
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", roles=" + roles +
+                '}';
+    }
+
+    public Long getId() {
         return id;
     }
+
+    public String getName() {
+        return name;
+    }
+
 
     public String getEmail() {
         return email;
@@ -30,60 +49,28 @@ public class User {
         return password;
     }
 
-    public Integer getAccountID() {
-        return accountID;
-    }
+    public Set<Role> getRoles() {
 
-
-    public static Builder builder() {
-        return new Builder();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        User user = (User) o;
-        return Objects.equals(id, user.id) &&
-                Objects.equals(email, user.email) &&
-                Objects.equals(password, user.password) &&
-                Objects.equals(accountID, user.accountID);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, email, password, accountID);
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", accountID=" + accountID +
-                '}';
+        return roles;
     }
 
     public static class Builder {
-        private Integer id;
+        private Long id;
+        private String name;
         private String email;
         private String password;
-        private Integer accountID;
+        private Set<Role> roles;
 
         private Builder() {
         }
 
-        public User build() {
-            return new User(this);
+        public Builder withId(Long id) {
+            this.id = id;
+            return this;
         }
 
-        public Builder withId(Integer id) {
-            this.id = id;
+        public Builder withName(String name) {
+            this.name = name;
             return this;
         }
 
@@ -97,10 +84,14 @@ public class User {
             return this;
         }
 
-        public Builder withAccountID(Integer accountID) {
-            this.accountID = accountID;
+        public Builder withRoles(Set<Role> roles) {
+            this.roles = roles;
             return this;
         }
 
+        public User build() {
+
+            return new User(this);
         }
     }
+}

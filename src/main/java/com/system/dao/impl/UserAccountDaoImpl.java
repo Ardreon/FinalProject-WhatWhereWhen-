@@ -1,6 +1,5 @@
 package com.system.dao.impl;
 
-import com.system.dao.UserAccountDao;
 import com.system.dao.ConnectorDB;
 import com.system.domain.UserAccount;
 
@@ -9,7 +8,7 @@ import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
 
-public class UserAccountDaoImpl extends AbstractCrudDaoImpl<UserAccount> implements UserAccountDao {
+public class UserAccountDaoImpl extends AbstractCrudDaoImpl<UserAccount> implements CrudPageableDao<UserAccount> {
     private static final String FIND_BY_ID_QUERY = "SELECT * FROM accounts WHERE id=?";
 
     public UserAccountDaoImpl(ConnectorDB connector) {

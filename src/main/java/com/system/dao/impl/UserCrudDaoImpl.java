@@ -1,7 +1,7 @@
 package com.system.dao.impl;
 
 import com.system.dao.ConnectorDB;
-import com.system.dao.DataBaseSqlRuntimeException;
+import com.system.exceptions.DataBaseSqlRuntimeException;
 import com.system.dao.UserDao;
 import com.system.domain.User;
 

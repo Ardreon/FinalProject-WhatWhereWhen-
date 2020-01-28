@@ -3,7 +3,7 @@ package com.system.dao.impl;
 
 import com.system.dao.ConnectorDB;
 import com.system.dao.CrudDao;
-import com.system.dao.DataBaseSqlRuntimeException;
+import com.system.exceptions.DataBaseSqlRuntimeException;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
