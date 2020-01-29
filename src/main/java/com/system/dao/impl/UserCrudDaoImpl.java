@@ -5,27 +5,36 @@ import com.system.exceptions.DataBaseSqlRuntimeException;
 import com.system.dao.UserDao;
 import com.system.domain.User;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class UserCrudDaoImpl extends AbstractCrudDaoImpl<User> implements UserDao {
+public class UserDaoImpl extends AbstractCrudDaoImpl<User> implements UserDao {
 
-    private static final String FIND_BY_EMAIL_QUERY = "SELECT * FROM users WHERE email=?";
-    private static final String FIND_BY_ID_QUERY = "SELECT * FROM users WHERE id=?";
-    private static final String FIND_ALL_QUERY = "SELECT * FROM users";
+    private static final String SAVE = "INSERT INTO user (id, name, email, password) values(?, ?, ?, ?)";
+    private static final String FIND_BY_ID = "SELECT * FROM user WHERE id = ?";
+    private static final String FIND_ALL = "SELECT * FROM user";
+    private static final String UPDATE = "UPDATE user SET name =?, email=?, password=? WHERE id = ?";
+    private static final String DELETE_BY_ID = "DELETE * FROM user WHERE id = ?";
+    private static final String FIND_BY_EMAIL = "SELECT * FROM users WHERE email = ?";
 
-    public UserCrudDaoImpl(ConnectorDB connector) {
-        super(connector,FIND_BY_ID_QUERY);
+    private static final Logger log = Logger.getLogger(AbstractCrudDaoImpl.class.getName());
+
+
+    public UserDaoImpl(ConnectorDB connector) {
+        super(connector, SAVE, FIND_BY_ID, FIND_ALL, UPDATE, DELETE_BY_ID);
     }
 
     @Override
     public Optional<User> findByEmail(String email) {
         try (final PreparedStatement preparedStatement =
-                     connector.getConnection().prepareStatement(FIND_BY_EMAIL_QUERY)) {
+                     connector.getConnection().prepareStatement(FIND_BY_EMAIL)) {
             preparedStatement.setString(1, email);
 
             try (final ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -35,22 +44,18 @@ public class UserCrudDaoImpl extends AbstractCrudDaoImpl<User> implements UserDa
             }
 
         } catch (SQLException e) {
-            //log
+            log.log(Level.SEVERE,"FindById operation is failed: ", e);
             throw new DataBaseSqlRuntimeException("", e);
         }
 
         return Optional.empty();
     }
 
-    @Override
-    public void save(User entity) {
-
-    }
 
     @Override
-    public List<User> findAll(int page, int itemPerPage) {
+    public List<User> findAll() {
         try (final PreparedStatement preparedStatement =
-                     connector.getConnection().prepareStatement(FIND_ALL_QUERY)) {
+                     connector.getConnection().prepareStatement(FIND_ALL)) {
             try (final ResultSet resultSet = preparedStatement.executeQuery()) {
                 List<User> users = new ArrayList<>();
                 while (resultSet.next()) {
@@ -61,32 +66,33 @@ public class UserCrudDaoImpl extends AbstractCrudDaoImpl<User> implements UserDa
             }
 
         } catch (SQLException e) {
-            //log
+            log.log(Level.SEVERE,"FindAll operation is failed: ", e);
             throw new DataBaseSqlRuntimeException("", e);
         }
     }
 
-    @Override
-    public long count() {
-        return 0;
-    }
+
 
     protected User mapResultSetToEntity(ResultSet resultSet) throws SQLException {
         return User.builder()
-                .withId(resultSet.getInt("id"))
+                .withId(resultSet.getLong("id"))
+                .withName(resultSet.getString("name"))
                 .withEmail(resultSet.getString("email"))
                 .withPassword(resultSet.getString("password"))
-                .withAccountID(resultSet.getInt("account_ID"))
                 .build();
     }
 
     @Override
-    public void update(User entity) {
-
+    protected void insert(PreparedStatement preparedStatement, User entity) throws SQLException {
+        preparedStatement.setString(1, entity.getName());
+        preparedStatement.setString(2, entity.getEmail());
+        preparedStatement.setString(3, entity.getPassword());
     }
 
     @Override
-    public void deleteById(Integer id) {
-
+    protected void updateValues(PreparedStatement preparedStatement, User entity) throws SQLException {
+        insert(preparedStatement, entity);
+        preparedStatement.setLong(4, entity.getId());
     }
+
 }

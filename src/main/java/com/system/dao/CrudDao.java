@@ -13,6 +13,7 @@ public interface CrudDao<E> {
 
 
     default List<E> findAll(){
+
         return Collections.emptyList();
     }
 

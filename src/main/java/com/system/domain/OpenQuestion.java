@@ -1,6 +1,6 @@
 package com.system.domain;
 
-public class OpenQuestion {
+public class OpenQuestion extends Question {
 
     private final Long question_id;
     private final String question;

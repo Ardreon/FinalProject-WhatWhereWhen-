@@ -1,7 +1,7 @@
 package com.system.domain;
 
 
-public class VariantQuestion {
+public class VariantQuestion extends Question {
 
         private final Long question_id;
         private final String question;

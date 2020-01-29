@@ -1,14 +1,14 @@
 package com.system.domain;
 
 public class Configuration {
-    private final Long lobbiId;
+    private final Long configId;
     private final Integer time;
     private final String playersCount;
     private final PromptType promptTypes;
     private final Integer questionCount;
 
     public Configuration(ConfigurationBuilder configurationBuilder) {
-        this.lobbiId = configurationBuilder.lobbiId;
+        this.configId = configurationBuilder.configId;
         this.time = configurationBuilder.time;
         this.playersCount = configurationBuilder.playersCount;
         this.promptTypes = configurationBuilder.promptTypes;
@@ -16,7 +16,7 @@ public class Configuration {
     }
 
     public static final class ConfigurationBuilder {
-        private Long lobbiId;
+        private Long configId;
         private Integer time;
         private String playersCount;
         private PromptType promptTypes;
@@ -29,8 +29,8 @@ public class Configuration {
             return new Configuration(this);
         }
 
-        public ConfigurationBuilder withLobbiId(Long lobbiId) {
-            this.lobbiId = lobbiId;
+        public ConfigurationBuilder withConfigId(Long configId) {
+            this.configId = configId;
             return this;
         }
 
