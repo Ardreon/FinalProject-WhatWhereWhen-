@@ -3,11 +3,11 @@ package com.system.domain;
 public class Configuration {
     private final Long configId;
     private final Integer time;
-    private final String playersCount;
+    private final Integer playersCount;
     private final PromptType promptTypes;
     private final Integer questionCount;
 
-    public Configuration(ConfigurationBuilder configurationBuilder) {
+    private Configuration(ConfigurationBuilder configurationBuilder) {
         this.configId = configurationBuilder.configId;
         this.time = configurationBuilder.time;
         this.playersCount = configurationBuilder.playersCount;
@@ -15,18 +15,39 @@ public class Configuration {
         this.questionCount = configurationBuilder.questionCount;
     }
 
+    public static ConfigurationBuilder configurationBuilder() {
+        return new ConfigurationBuilder();
+    }
+
+    public Long getConfigId() {
+        return configId;
+    }
+
+    public Integer getTime() {
+        return time;
+    }
+
+    public Integer getPlayersCount() {
+        return playersCount;
+    }
+
+    public PromptType getPromptTypes() {
+        return promptTypes;
+    }
+
+    public Integer getQuestionCount() {
+        return questionCount;
+    }
+
     public static final class ConfigurationBuilder {
         private Long configId;
         private Integer time;
-        private String playersCount;
+        private Integer playersCount;
         private PromptType promptTypes;
         private Integer questionCount;
 
-        private ConfigurationBuilder() {
-        }
 
-        public Configuration build() {
-            return new Configuration(this);
+        private ConfigurationBuilder() {
         }
 
         public ConfigurationBuilder withConfigId(Long configId) {
@@ -39,7 +60,7 @@ public class Configuration {
             return this;
         }
 
-        public ConfigurationBuilder withPlayersCount(String playersCount) {
+        public ConfigurationBuilder withPlayersCount(Integer playersCount) {
             this.playersCount = playersCount;
             return this;
         }
@@ -52,6 +73,11 @@ public class Configuration {
         public ConfigurationBuilder withQuestionCount(Integer questionCount) {
             this.questionCount = questionCount;
             return this;
+        }
+
+        public Configuration configuration() {
+
+            return new Configuration(this);
         }
     }
 }

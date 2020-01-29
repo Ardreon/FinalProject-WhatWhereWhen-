@@ -15,7 +15,7 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class UserDaoImpl extends AbstractCrudDaoImpl<User> implements UserDao {
+public class UserCrudDaoImpl extends AbstractCrudDaoImpl<User> implements UserDao {
 
     private static final String SAVE = "INSERT INTO user (id, name, email, password) values(?, ?, ?, ?)";
     private static final String FIND_BY_ID = "SELECT * FROM user WHERE id = ?";
@@ -27,7 +27,7 @@ public class UserDaoImpl extends AbstractCrudDaoImpl<User> implements UserDao {
     private static final Logger log = Logger.getLogger(AbstractCrudDaoImpl.class.getName());
 
 
-    public UserDaoImpl(ConnectorDB connector) {
+    public UserCrudDaoImpl(ConnectorDB connector) {
         super(connector, SAVE, FIND_BY_ID, FIND_ALL, UPDATE, DELETE_BY_ID);
     }
 
