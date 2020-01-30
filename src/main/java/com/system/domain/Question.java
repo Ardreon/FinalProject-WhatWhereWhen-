@@ -1,4 +1,5 @@
 package com.system.domain;
 
-public class Question {
+public abstract class Question {
+
 }

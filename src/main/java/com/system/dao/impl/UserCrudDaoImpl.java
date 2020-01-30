@@ -1,5 +1,6 @@
 package com.system.dao.impl;
 
+import org.apache.log4j.Logger;
 import com.system.dao.ConnectorDB;
 import com.system.exceptions.DataBaseSqlRuntimeException;
 import com.system.dao.UserDao;
@@ -12,20 +13,17 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class UserCrudDaoImpl extends AbstractCrudDaoImpl<User> implements UserDao {
+
+    protected static final Logger LOGGER = Logger.getLogger(UserCrudDaoImpl.class);
 
     private static final String SAVE = "INSERT INTO user (id, name, email, password) values(?, ?, ?, ?)";
     private static final String FIND_BY_ID = "SELECT * FROM user WHERE id = ?";
     private static final String FIND_ALL = "SELECT * FROM user";
     private static final String UPDATE = "UPDATE user SET name =?, email=?, password=? WHERE id = ?";
     private static final String DELETE_BY_ID = "DELETE * FROM user WHERE id = ?";
-    private static final String FIND_BY_EMAIL = "SELECT * FROM users WHERE email = ?";
-
-    private static final Logger log = Logger.getLogger(AbstractCrudDaoImpl.class.getName());
-
+    private static final String FIND_BY_EMAIL = "SELECT * FROM user WHERE email = ?";
 
     public UserCrudDaoImpl(ConnectorDB connector) {
         super(connector, SAVE, FIND_BY_ID, FIND_ALL, UPDATE, DELETE_BY_ID);
@@ -35,43 +33,18 @@ public class UserCrudDaoImpl extends AbstractCrudDaoImpl<User> implements UserDa
     public Optional<User> findByEmail(String email) {
         try (final PreparedStatement preparedStatement =
                      connector.getConnection().prepareStatement(FIND_BY_EMAIL)) {
-            preparedStatement.setString(1, email);
-
+            preparedStatement.setString(2, email);
             try (final ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     return Optional.of(mapResultSetToEntity(resultSet));
                 }
             }
-
         } catch (SQLException e) {
-            log.log(Level.SEVERE,"FindById operation is failed: ", e);
-            throw new DataBaseSqlRuntimeException("", e);
+            LOGGER.warn(String.format(MESSAGE_ERROR, FIND_BY_EMAIL, e));
+            throw new DataBaseSqlRuntimeException("Operation findByEmail in UserCrudDaoImpl failed", e);
         }
-
         return Optional.empty();
     }
-
-
-    @Override
-    public List<User> findAll() {
-        try (final PreparedStatement preparedStatement =
-                     connector.getConnection().prepareStatement(FIND_ALL)) {
-            try (final ResultSet resultSet = preparedStatement.executeQuery()) {
-                List<User> users = new ArrayList<>();
-                while (resultSet.next()) {
-                    final User optionalUser = mapResultSetToEntity(resultSet);
-                    users.add(optionalUser);
-                }
-                return users;
-            }
-
-        } catch (SQLException e) {
-            log.log(Level.SEVERE,"FindAll operation is failed: ", e);
-            throw new DataBaseSqlRuntimeException("", e);
-        }
-    }
-
-
 
     protected User mapResultSetToEntity(ResultSet resultSet) throws SQLException {
         return User.builder()
@@ -94,5 +67,4 @@ public class UserCrudDaoImpl extends AbstractCrudDaoImpl<User> implements UserDa
         insert(preparedStatement, entity);
         preparedStatement.setLong(4, entity.getId());
     }
-
 }

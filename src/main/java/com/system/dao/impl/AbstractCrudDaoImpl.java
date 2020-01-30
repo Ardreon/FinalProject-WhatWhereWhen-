@@ -1,6 +1,6 @@
 package com.system.dao.impl;
 
-
+import org.apache.log4j.Logger;
 import com.system.dao.ConnectorDB;
 import com.system.dao.CrudDao;
 import com.system.exceptions.DataBaseSqlRuntimeException;
@@ -12,11 +12,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public abstract class AbstractCrudDaoImpl<E> implements CrudDao<E> {
-    private static final Logger log = Logger.getLogger(AbstractCrudDaoImpl.class.getName());
+
+    protected static final Logger LOGGER = Logger.getLogger(AbstractCrudDaoImpl.class);
+    protected static final String MESSAGE_ERROR = "SQL Error";
 
     protected final ConnectorDB connector;
     private final String findById;
@@ -24,8 +24,6 @@ public abstract class AbstractCrudDaoImpl<E> implements CrudDao<E> {
     private final String findAll;
     private final String update;
     private final String deleteById;
-
-
 
     protected AbstractCrudDaoImpl(ConnectorDB connector, String findById, String save,
                                   String findAll, String update, String deleteById) {
@@ -41,12 +39,11 @@ public abstract class AbstractCrudDaoImpl<E> implements CrudDao<E> {
     public void save(E entity) {
         try (Connection connection = connector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(save)) {
-
             insert(preparedStatement, entity);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            log.log(Level.SEVERE,"Insertion is failed: ", e);
-            throw new DataBaseSqlRuntimeException("Insertion is failed", e);
+            LOGGER.warn(String.format(MESSAGE_ERROR, save, e));
+            throw new DataBaseSqlRuntimeException("Insertion failed in save method", e);
         }
     }
 
@@ -55,18 +52,15 @@ public abstract class AbstractCrudDaoImpl<E> implements CrudDao<E> {
         try (final PreparedStatement preparedStatement =
                      connector.getConnection().prepareStatement(findById)) {
             preparedStatement.setInt(1, id);
-
             try (final ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     return Optional.of(mapResultSetToEntity(resultSet));
                 }
             }
-
         } catch (SQLException e) {
-            log.log(Level.SEVERE,"FindById operation is failed: ", e);
-            throw new DataBaseSqlRuntimeException("FindById operation failed!", e);
+            LOGGER.warn(String.format(MESSAGE_ERROR, findById, e));
+            throw new DataBaseSqlRuntimeException("Operation failed in findById method", e);
         }
-
         return Optional.empty();
     }
 
@@ -82,8 +76,8 @@ public abstract class AbstractCrudDaoImpl<E> implements CrudDao<E> {
                 return entities;
             }
         } catch (SQLException e) {
-            log.log(Level.SEVERE,"FindAll operation is failed: ", e);
-            throw new DataBaseSqlRuntimeException("FindAll operation failed!", e);
+            LOGGER.warn(String.format(MESSAGE_ERROR, findAll, e));
+            throw new DataBaseSqlRuntimeException("Operation failed in findAll method", e);
         }
     }
 
@@ -91,13 +85,11 @@ public abstract class AbstractCrudDaoImpl<E> implements CrudDao<E> {
     public void update(E entity) {
         try (Connection connection = connector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(update)) {
-
             updateValues(preparedStatement, entity);
-
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            log.log(Level.SEVERE,"Update is failed: ", e);
-            throw new DataBaseSqlRuntimeException("Update failed!", e);
+            LOGGER.warn(String.format(MESSAGE_ERROR, update, e));
+            throw new DataBaseSqlRuntimeException("Update failed in update method", e);
         }
     }
 
@@ -106,16 +98,14 @@ public abstract class AbstractCrudDaoImpl<E> implements CrudDao<E> {
         try (final PreparedStatement preparedStatement =
                      connector.getConnection().prepareStatement(deleteById)) {
             preparedStatement.setInt(1, id);
-
             try (final ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     resultSet.deleteRow();
                 }
             }
-
         } catch (SQLException e) {
-            log.log(Level.SEVERE,"DeleteById operation is failed: ", e);
-            throw new DataBaseSqlRuntimeException("Delete failed!", e);
+            LOGGER.warn(String.format(MESSAGE_ERROR, update, e));
+            throw new DataBaseSqlRuntimeException("Delete failed in deleteById method", e);
         }
     }
 

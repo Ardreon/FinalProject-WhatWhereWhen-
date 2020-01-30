@@ -9,7 +9,7 @@ public class DataBaseSqlRuntimeException extends RuntimeException {
         super(message);
     }
 
-    public DataBaseSqlRuntimeException(String message, Exception cause) {
+    public DataBaseSqlRuntimeException(String message, Throwable cause) {
         super(message, cause);
     }
 }

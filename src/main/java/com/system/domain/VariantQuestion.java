@@ -1,155 +1,158 @@
 package com.system.domain;
 
-
 public class VariantQuestion extends Question {
 
-        private final Long question_id;
-        private final String question;
-        private final String right_answer;
-        private final Double right_answer_procent;
-        private final String wrong_answer1;
-        private final Double wrong_answer1_procent;
-        private final String wrong_answer2;
-        private final Double wrong_answer2_procent;
-        private final String wrong_answer3;
-        private final Double wrong_answer3_procent;
+    private final Long questionId;
+    private final String question;
+    private final String rightAnswer;
+    private final Double rightAnswerProcent;
+    private final String wrongAnswer1;
+    private final Double wrongAnswer1Procent;
+    private final String wrongAnswer2;
+    private final Double wrongAnswer2Procent;
+    private final String wrongAnswer3;
+    private final Double wrongAnswer3Procent;
 
-        public VariantQuestion(Builder builder) {
-        this.question_id = builder.question_id;
+    public VariantQuestion(Builder builder) {
+        this.questionId = builder.questionId;
         this.question = builder.question;
-        this.right_answer = builder.right_answer;
-        this.right_answer_procent = builder.right_answer_procent;
-        this.wrong_answer1 = builder.wrong_answer1;
-        this.wrong_answer1_procent = builder.wrong_answer1_procent;
-        this.wrong_answer2 = builder.wrong_answer2;
-        this.wrong_answer2_procent = builder.wrong_answer2_procent;
-        this.wrong_answer3 = builder.wrong_answer3;
-        this.wrong_answer3_procent = builder.wrong_answer3_procent;
+        this.rightAnswer = builder.rightAnswer;
+        this.rightAnswerProcent = builder.rightAnswerProcent;
+        this.wrongAnswer1 = builder.wrongAnswer1;
+        this.wrongAnswer1Procent = builder.wrongAnswer1Procent;
+        this.wrongAnswer2 = builder.wrongAnswer2;
+        this.wrongAnswer2Procent = builder.wrongAnswer2Procent;
+        this.wrongAnswer3 = builder.wrongAnswer3;
+        this.wrongAnswer3Procent = builder.wrongAnswer3Procent;
     }
 
     public static Builder builder() {
-
-            return new Builder();
+        return new Builder();
     }
 
     @Override
     public String toString() {
         return "VariantTypeQuestion{" +
-                "question_id=" + question_id +
+                "questionId=" + questionId +
                 ", question='" + question + '\'' +
-                ", right_answer='" + right_answer + '\'' +
-                ", right_answer_procent='" + right_answer_procent + '\'' +
-                ", wrong_answer1='" + wrong_answer1 + '\'' +
-                ", wrong_answer1_procent='" + wrong_answer1_procent + '\'' +
-                ", wrong_answer2='" + wrong_answer2 + '\'' +
-                ", wrong_answer2_procent='" + wrong_answer2_procent + '\'' +
-                ", wrong_answer3='" + wrong_answer3 + '\'' +
-                ", wrong_answer3_procent='" + wrong_answer3_procent + '\'' +
+                ", rightAnswer='" + rightAnswer + '\'' +
+                ", rightAnswerProcent='" + rightAnswerProcent + '\'' +
+                ", wrongAnswer1='" + wrongAnswer1 + '\'' +
+                ", wrongAnswer1Procent='" + wrongAnswer1Procent + '\'' +
+                ", wrongAnswer2='" + wrongAnswer2 + '\'' +
+                ", wwrongAnswer2Procent='" + wrongAnswer2Procent + '\'' +
+                ", wrongAnswer3='" + wrongAnswer3 + '\'' +
+                ", wrongAnswer3Procent='" + wrongAnswer3Procent + '\'' +
                 '}';
     }
 
-    public Long getQuestion_id() {
-        return question_id;
+    public Long getQuestionId() {
+        return questionId;
     }
 
     public String getQuestion() {
         return question;
     }
 
-    public String getRight_answer() {
-        return right_answer;
+    public String getRightAnswer() {
+        return rightAnswer;
     }
 
-    public Double getRight_answer_procent() {
-        return right_answer_procent;
+    public Double getRightAnswerProcent() {
+        return rightAnswerProcent;
     }
 
-    public String getWrong_answer1() {
-        return wrong_answer1;
+    public String getWrongAnswer1() {
+        return wrongAnswer1;
     }
 
-    public Double getWrong_answer1_procent() {
-        return wrong_answer1_procent;
+    public Double getWrongAnswer1Procent() {
+        return wrongAnswer1Procent;
     }
 
-    public String getWrong_answer2() {
-        return wrong_answer2;
+    public String getWrongAnswer2() {
+        return wrongAnswer2;
     }
 
-    public Double getWrong_answer2_procent() {
-        return wrong_answer2_procent;
+    public Double getWrongAnswer2Procent() {
+        return wrongAnswer2Procent;
     }
 
-    public String getWrong_answer3() {
-        return wrong_answer3;
+    public String getWrongAnswer3() {
+        return wrongAnswer3;
     }
 
-    public Double getWrong_answer3_procent() {
-        return wrong_answer3_procent;
+    public Double getWrongAnswer3Procent() {
+        return wrongAnswer3Procent;
     }
 
     public static class Builder {
-        private Long question_id;
+        private Long questionId;
         private String question;
-        private String right_answer;
-        private Double right_answer_procent;
-        private String wrong_answer1;
-        private Double wrong_answer1_procent;
-        private String wrong_answer2;
-        private Double wrong_answer2_procent;
-        private String wrong_answer3;
-        private Double wrong_answer3_procent;
+        private String rightAnswer;
+        private Double rightAnswerProcent;
+        private String wrongAnswer1;
+        private Double wrongAnswer1Procent;
+        private String wrongAnswer2;
+        private Double wrongAnswer2Procent;
+        private String wrongAnswer3;
+        private Double wrongAnswer3Procent;
 
-            private Builder() {
-            }
-
-            public Builder withQuestion_id(Long question_id) {
-                this.question_id = question_id;
-                return this;
-            }
-
-            public Builder withRight_answer(String right_answer) {
-                this.right_answer = right_answer;
-                return this;
-            }
-
-            public Builder withRight_answer_procent(Double right_answer_procent) {
-                this.right_answer_procent = right_answer_procent;
-                return this;
-            }
-
-            public Builder withWrong_answer1(String wrong_answer1) {
-            this.wrong_answer1 = wrong_answer1;
-            return this;
-            }
-
-            public Builder withWrong_answer1_procent(Double wrong_answer1_procent) {
-            this.wrong_answer1_procent = wrong_answer1_procent;
-            return this;
-            }
-
-            public Builder withWrong_answer2(String wrong_answer2) {
-            this.wrong_answer2 = wrong_answer2;
-            return this;
-            }
-
-            public Builder withWrong_answer2_procent(Double wrong_answer2_procent) {
-            this.wrong_answer2_procent = wrong_answer2_procent;
-            return this;
-            }
-
-            public Builder withWrong_answer3(String wrong_answer3) {
-            this.wrong_answer3 = wrong_answer3;
-            return this;
-            }
-
-            public Builder withWrong_answer3_procent(Double wrong_answer3_procent) {
-            this.wrong_answer3_procent = wrong_answer3_procent;
-            return this;
-            }
-
-            public VariantQuestion build() {
-                return new VariantQuestion(this);
-            }
+        private Builder() {
         }
+
+        public Builder withQuestionId(Long questionId) {
+            this.questionId = questionId;
+            return this;
+        }
+
+        public Builder withQuestion(String question) {
+            this.question = question;
+            return this;
+        }
+
+        public Builder withRightAnswer(String rightAnswer) {
+            this.rightAnswer = rightAnswer;
+            return this;
+        }
+
+        public Builder withRightAnswerProcent(Double rightAnswerProcent) {
+            this.rightAnswerProcent = rightAnswerProcent;
+            return this;
+        }
+
+        public Builder withWrongAnswer1(String wrongAnswer1) {
+            this.wrongAnswer1 = wrongAnswer1;
+            return this;
+        }
+
+        public Builder withWrongAnswer1Procent(Double wrongAnswer1Procent) {
+            this.wrongAnswer1Procent = wrongAnswer1Procent;
+            return this;
+        }
+
+        public Builder withWrongAnswer2(String wrongAnswer2) {
+            this.wrongAnswer2 = wrongAnswer2;
+            return this;
+        }
+
+        public Builder withWrongAnswer2Procent(Double wrongAnswer2Procent) {
+            this.wrongAnswer2Procent = wrongAnswer2Procent;
+            return this;
+        }
+
+        public Builder withWrongAnswer3(String wrongAnswer3) {
+            this.wrongAnswer3 = wrongAnswer3;
+            return this;
+        }
+
+        public Builder withWrongAnswer3Procent(Double wrongAnswer3Procent) {
+            this.wrongAnswer3Procent = wrongAnswer3Procent;
+            return this;
+        }
+
+        public VariantQuestion build() {
+            return new VariantQuestion(this);
+        }
+    }
 }

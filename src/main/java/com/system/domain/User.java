@@ -51,7 +51,6 @@ public class User {
     }
 
     public Set<Role> getRoles() {
-
         return roles;
     }
 
@@ -91,7 +90,6 @@ public class User {
         }
 
         public User build() {
-
             return new User(this);
         }
     }
