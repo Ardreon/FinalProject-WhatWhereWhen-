@@ -18,21 +18,21 @@ public class UserCrudDaoImpl extends AbstractCrudDaoImpl<User> implements UserDa
 
     protected static final Logger LOGGER = Logger.getLogger(UserCrudDaoImpl.class);
 
-    private static final String SAVE = "INSERT INTO user (id, name, email, password) values(?, ?, ?, ?)";
-    private static final String FIND_BY_ID = "SELECT * FROM user WHERE id = ?";
-    private static final String FIND_ALL = "SELECT * FROM user";
-    private static final String UPDATE = "UPDATE user SET name =?, email=?, password=? WHERE id = ?";
-    private static final String DELETE_BY_ID = "DELETE * FROM user WHERE id = ?";
-    private static final String FIND_BY_EMAIL = "SELECT * FROM user WHERE email = ?";
+    private static final String SAVE_QUERY = "INSERT INTO user (id, name, email, password) values(?, ?, ?, ?)";
+    private static final String FIND_BY_ID_QUERY = "SELECT * FROM user WHERE id = ?";
+    private static final String FIND_ALL_QUERY = "SELECT * FROM user";
+    private static final String UPDATE_QUERY = "UPDATE user SET name =?, email=?, password=? WHERE id = ?";
+    private static final String DELETE_BY_ID_QUERY = "DELETE * FROM user WHERE id = ?";
+    private static final String FIND_BY_EMAIL_QUERY = "SELECT * FROM user WHERE email = ?";
 
     public UserCrudDaoImpl(ConnectorDB connector) {
-        super(connector, SAVE, FIND_BY_ID, FIND_ALL, UPDATE, DELETE_BY_ID);
+        super(connector, SAVE_QUERY, FIND_BY_ID_QUERY, FIND_ALL_QUERY, UPDATE_QUERY, DELETE_BY_ID_QUERY);
     }
 
     @Override
     public Optional<User> findByEmail(String email) {
         try (final PreparedStatement preparedStatement =
-                     connector.getConnection().prepareStatement(FIND_BY_EMAIL)) {
+                     connector.getConnection().prepareStatement(FIND_BY_EMAIL_QUERY)) {
             preparedStatement.setString(2, email);
             try (final ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
@@ -40,7 +40,7 @@ public class UserCrudDaoImpl extends AbstractCrudDaoImpl<User> implements UserDa
                 }
             }
         } catch (SQLException e) {
-            LOGGER.warn(String.format(MESSAGE_ERROR, FIND_BY_EMAIL, e));
+            LOGGER.warn(String.format(MESSAGE_ERROR, FIND_BY_EMAIL_QUERY, e));
             throw new DataBaseSqlRuntimeException("Operation findByEmail in UserCrudDaoImpl failed", e);
         }
         return Optional.empty();

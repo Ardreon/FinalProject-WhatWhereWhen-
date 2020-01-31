@@ -17,18 +17,18 @@ public class VariantQuestionCrudDaoImpl extends AbstractCrudDaoImpl<VariantQuest
 
     protected static final Logger LOGGER = Logger.getLogger(VariantQuestionCrudDaoImpl.class);
 
-    private static final String SAVE = "INSERT INTO variant_question (question_id, question, right_answer, right_answer_procent, wrong_answer1, wrong_answer1_procent, wrong_answer2, wrong_answer2_procent, wrong_answer3, wrong_answer3_procent) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    private static final String FIND_BY_ID = "SELECT * FROM variant_question WHERE question_id = ?";
-    private static final String FIND_ALL = "SELECT * FROM variant_question";
-    private static final String UPDATE = "UPDATE variant_question SET question =?, right_answer=?, right_answer_procent=?,  wrong_answer1=?, wrong_answer1_procent=?, wrong_answer2=?, wrong_answer2_procent=?, wrong_answer3=?, wrong_answer3_procent=? WHERE question_id = ?";
-    private static final String DELETE_BY_ID = "DELETE * FROM variant_question WHERE question_id = ?";
+    private static final String SAVE_QUERY = "INSERT INTO open_question (question_id, question, answer, prompt) values(?, ?, ?, ?)";
+    private static final String FIND_BY_ID_QUERY = "SELECT * FROM open_question WHERE question_id = ?";
+    private static final String FIND_ALL_QUERY = "SELECT * FROM open_question";
+    private static final String UPDATE_QUERY = "UPDATE open_question SET question =?, answer=?, prompt=? WHERE question_id = ?";
+    private static final String DELETE_BY_ID_QUERY = "DELETE * FROM open_question WHERE question_id = ?";
 
     private static final Logger log = Logger.getLogger(AbstractCrudDaoImpl.class.getName());
 
     private PromptType promptType;
 
     public VariantQuestionCrudDaoImpl(ConnectorDB connector) {
-        super(connector, SAVE, FIND_BY_ID, FIND_ALL, UPDATE, DELETE_BY_ID);
+        super(connector, SAVE_QUERY, FIND_BY_ID_QUERY, FIND_ALL_QUERY, UPDATE_QUERY, DELETE_BY_ID_QUERY);
     }
 
     protected VariantQuestion mapResultSetToEntity(ResultSet resultSet) throws SQLException {

@@ -12,18 +12,18 @@ import java.util.List;
 
 public class GameCrudDaoImpl extends AbstractCrudDaoImpl<Game> {
 
-    private static final String SAVE = "INSERT INTO configuration (configuration_id, time, players_count, prompt_type, question_count) values(?, ?, ?, ?, ?)";
-    private static final String FIND_BY_ID = "SELECT * FROM configuration WHERE configuration_id = ?";
-    private static final String FIND_ALL = "SELECT * FROM configuration";
-    private static final String UPDATE = "UPDATE configuration SET time =?, players_count=?, prompt_type=?, question_count=? WHERE id = ?";
-    private static final String DELETE_BY_ID = "DELETE * FROM configuration WHERE configuration_id = ?";
+    private static final String SAVE_QUERY = "INSERT INTO configuration (configuration_id, time, players_count, prompt_type, question_count) values(?, ?, ?, ?, ?)";
+    private static final String FIND_BY_ID_QUERY = "SELECT * FROM configuration WHERE configuration_id = ?";
+    private static final String FIND_ALL_QUERY = "SELECT * FROM configuration";
+    private static final String UPDATE_QUERY = "UPDATE configuration SET time =?, players_count=?, prompt_type=?, question_count=? WHERE id = ?";
+    private static final String DELETE_BY_ID_QUERY = "DELETE * FROM configuration WHERE configuration_id = ?";
 
 
     private PromptType promptType;
 
 
     public GameCrudDaoImpl(ConnectorDB connector) {
-        super(connector, SAVE, FIND_BY_ID, FIND_ALL, UPDATE, DELETE_BY_ID);
+        super(connector, SAVE_QUERY, FIND_BY_ID_QUERY, FIND_ALL_QUERY, UPDATE_QUERY, DELETE_BY_ID_QUERY);
     }
 
     protected Game mapResultSetToEntity(ResultSet resultSet) throws SQLException {
