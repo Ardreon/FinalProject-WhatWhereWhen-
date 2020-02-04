@@ -1,19 +1,14 @@
 package com.system.dao.impl;
 
-import com.system.domain.*;
+import com.system.entity.*;
 import org.apache.log4j.Logger;
 import com.system.dao.ConnectorDB;
-import com.system.exceptions.DataBaseSqlRuntimeException;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
-public class VariantQuestionCrudDaoImpl extends AbstractCrudDaoImpl<VariantQuestion> {
+public class VariantQuestionCrudDaoImpl extends AbstractCrudDaoImpl<VariantQuestionEntity> {
 
     protected static final Logger LOGGER = Logger.getLogger(VariantQuestionCrudDaoImpl.class);
 
@@ -25,14 +20,14 @@ public class VariantQuestionCrudDaoImpl extends AbstractCrudDaoImpl<VariantQuest
 
     private static final Logger log = Logger.getLogger(AbstractCrudDaoImpl.class.getName());
 
-    private PromptType promptType;
+    private PromptTypeEntity promptTypeEntity;
 
     public VariantQuestionCrudDaoImpl(ConnectorDB connector) {
         super(connector, SAVE_QUERY, FIND_BY_ID_QUERY, FIND_ALL_QUERY, UPDATE_QUERY, DELETE_BY_ID_QUERY);
     }
 
-    protected VariantQuestion mapResultSetToEntity(ResultSet resultSet) throws SQLException {
-        return VariantQuestion.builder()
+    protected VariantQuestionEntity mapResultSetToEntity(ResultSet resultSet) throws SQLException {
+        return VariantQuestionEntity.builder()
                 .withQuestionId(resultSet.getLong("questionId"))
                 .withQuestion(resultSet.getString("question"))
                 .withRightAnswer(resultSet.getString("rightAnswer"))
@@ -47,7 +42,7 @@ public class VariantQuestionCrudDaoImpl extends AbstractCrudDaoImpl<VariantQuest
     }
 
     @Override
-    protected void insert(PreparedStatement preparedStatement, VariantQuestion entity) throws SQLException {
+    protected void insert(PreparedStatement preparedStatement, VariantQuestionEntity entity) throws SQLException {
         preparedStatement.setString(1, entity.getQuestion());
         preparedStatement.setString(2, entity.getRightAnswer());
         preparedStatement.setDouble(3, entity.getRightAnswerProcent());
@@ -60,7 +55,7 @@ public class VariantQuestionCrudDaoImpl extends AbstractCrudDaoImpl<VariantQuest
     }
 
     @Override
-    protected void updateValues(PreparedStatement preparedStatement, VariantQuestion entity) throws SQLException {
+    protected void updateValues(PreparedStatement preparedStatement, VariantQuestionEntity entity) throws SQLException {
         insert(preparedStatement, entity);
         preparedStatement.setLong(10, entity.getQuestionId());
     }

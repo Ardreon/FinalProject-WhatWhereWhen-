@@ -1,10 +1,10 @@
 package com.system.dao;
 
-import com.system.domain.User;
+import com.system.entity.UserEntity;
 
 import java.util.Optional;
 
 public interface UserDao {
 
-    Optional<User> findByEmail(String email);
+    Optional<UserEntity> findByEmail(String email);
 }

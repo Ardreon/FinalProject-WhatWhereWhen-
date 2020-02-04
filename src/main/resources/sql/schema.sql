@@ -1,74 +1,61 @@
 DROP SCHEMA IF EXISTS `system` ;
 
-CREATE SCHEMA IF NOT EXISTS `system` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
-USE `system` ;
-
-CREATE TABLE IF NOT EXISTS `system`.`configuration` (
-                                                        `configuration_id` INT NOT NULL,
-                                                        `time` TIME NULL DEFAULT NULL,
-                                                        `players_count` INT NULL DEFAULT NULL,
-                                                        `prompt_type` TEXT NOT NULL,
-                                                        `question_count` INT NULL DEFAULT NULL,
-                                                        PRIMARY KEY (`configuration_id`));
-
--- -----------------------------------------------------
--- Table `system`.`open_question`
--- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `system`.`open_question` (
-                                                        `question_id` INT NOT NULL,
-                                                        `question` TEXT NULL DEFAULT NULL,
-                                                        `answer` TEXT NULL DEFAULT NULL,
-                                                        `prtompt` TEXT NULL DEFAULT NULL,
-                                                        PRIMARY KEY (`question_id`));
+     `questionId` INT NOT NULL AUTO_INCREMENT,
+     `question` TINYTEXT NULL DEFAULT NULL,
+     `answer` TINYTEXT NULL DEFAULT NULL,
+     `prompt` TINYTEXT NULL DEFAULT NULL,
+      PRIMARY KEY (`questionId`));
 
--- -----------------------------------------------------
--- Table `system`.`variant_question`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `system`.`variant_question` (
-                                                           `question_id` INT NOT NULL,
-                                                           `question` TEXT NOT NULL,
-                                                           `right_answer` TEXT NOT NULL,
-                                                           `right_answer_procent` DOUBLE NOT NULL,
-                                                           `wrong_answer1` TEXT NOT NULL,
-                                                           `wrong_answer1_procent` DOUBLE NOT NULL,
-                                                           `wrong_answer2` TEXT NOT NULL,
-                                                           `wrong_answer2_procent` DOUBLE NOT NULL,
-                                                           `wrong_answer3` TEXT NOT NULL,
-                                                           `wrong_answer3_procent` DOUBLE NOT NULL,
-                                                           PRIMARY KEY (`question_id`));
+CREATE TABLE IF NOT EXISTS `system`.`prompt_type` (
+     `promptId` INT NOT NULL AUTO_INCREMENT,
+     `prompt` VARCHAR(8) NULL DEFAULT NULL,
+     PRIMARY KEY (`promptId`));
 
-
-
--- -----------------------------------------------------
--- Table `system`.`user`
--- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `system`.`user` (
-                                               `id` INT NOT NULL,
-                                               `name` TEXT NOT NULL,
-                                               `email` TEXT NOT NULL,
-                                               `password` TEXT NOT NULL,
-                                               PRIMARY KEY (`id`));
+     `id` INT NOT NULL AUTO_INCREMENT,
+     `name` VARCHAR(45) NOT NULL,
+     `email` VARCHAR(45) NOT NULL,
+     `password` VARCHAR(45) NOT NULL,
+     `score` TINYINT NULL DEFAULT NULL,
+     PRIMARY KEY (`id`));
 
+CREATE TABLE IF NOT EXISTS `system`.`variant_question` (
+     `questionId` INT NOT NULL AUTO_INCREMENT,
+     `question` TINYTEXT NOT NULL,
+     `rightAnswer` TINYTEXT NOT NULL,
+     `rightAnswerProcent` DOUBLE NOT NULL,
+     `wrongAnswer1` TINYTEXT NOT NULL,
+     `wrongAnswer1Procent` DOUBLE NOT NULL,
+     `wrongAnswer2` TINYTEXT NOT NULL,
+     `wrongAnswer2Procent` DOUBLE NOT NULL,
+     `wrongAnswer3` TINYTEXT NOT NULL,
+     `wrongAnswer3Procent` DOUBLE NOT NULL,
+     PRIMARY KEY (`questionId`));
 
-
--- -----------------------------------------------------
--- Table `system`.`lobbi`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `system`.`lobbi` (
-                                                `lobbi_id` INT NOT NULL,
-                                                `configuration_id` INT NOT NULL,
-                                                `user_id` INT NOT NULL,
-                                                `question_id` INT NOT NULL,
-                                                PRIMARY KEY (`lobbi_id`),
-                                                CONSTRAINT `ConfigurationBound`
-                                                    FOREIGN KEY (`configuration_id`)
-                                                        REFERENCES `system`.`configuration` (`configuration_id`),
-                                                CONSTRAINT `OpenQuestionBound`
-                                                    FOREIGN KEY (`question_id`)
-                                                        REFERENCES `system`.`open_question` (`question_id`),
-                                                CONSTRAINT `UserBound`
-                                                    FOREIGN KEY (`user_id`)
-                                                        REFERENCES `system`.`user` (`id`),
-                                                CONSTRAINT `VariantQuestionBound`
-                                                    FOREIGN KEY (`question_id`)
-                                                        REFERENCES `system`.`variant_question` (`question_id`))
+CREATE TABLE IF NOT EXISTS `system`.`game` (
+     `gameId` INT NOT NULL AUTO_INCREMENT,
+     `time` TIMESTAMP NULL DEFAULT NULL,
+     `openQuestionCount` VARCHAR(3) NULL DEFAULT NULL,
+     `variantQuestionCount` VARCHAR(3) NULL DEFAULT NULL,
+     `promptTypeId` INT NULL DEFAULT NULL,
+     `userId` INT NULL DEFAULT NULL,
+     `openQuestionId` INT NULL DEFAULT NULL,
+     `variantQuestionId` INT NULL DEFAULT NULL,
+     PRIMARY KEY (`gameId`),
+  INDEX `promptId_idx` (`promptTypeId` ASC) VISIBLE,
+  INDEX `userId_idx` (`userId` ASC) VISIBLE,
+  INDEX `variantQuestionId_idx` (`variantQuestionId` ASC) VISIBLE,
+  INDEX `openQuestionId_idx` (`openQuestionId` ASC) VISIBLE,
+  CONSTRAINT `openQuestionId`
+    FOREIGN KEY (`openQuestionId`)
+    REFERENCES `system`.`open_question` (`questionId`),
+  CONSTRAINT `promptId`
+    FOREIGN KEY (`promptTypeId`)
+    REFERENCES `system`.`prompt_type` (`promptId`),
+  CONSTRAINT `userId`
+    FOREIGN KEY (`userId`)
+    REFERENCES `system`.`user` (`id`),
+  CONSTRAINT `variantQuestionId`
+    FOREIGN KEY (`variantQuestionId`)
+    REFERENCES `system`.`variant_question` (`questionId`))

@@ -1,12 +1,12 @@
-package com.system.domain;
+package com.system.entity;
 
-public enum Role {
+public enum RoleEntity {
     JUDGE,
     EXPERT;
 
     public static final String ERROR_MESSAGE = "Wrong Role. This Role doesn't exist";
 
-    public static Role getRoleById(Integer roleId) {
+    public static RoleEntity getRoleById(Integer roleId) {
         switch (roleId) {
             case 1:
                 return JUDGE;

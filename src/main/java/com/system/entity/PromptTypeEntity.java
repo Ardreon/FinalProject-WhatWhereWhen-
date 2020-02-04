@@ -1,10 +1,10 @@
-package com.system.domain;
+package com.system.entity;
 
-public enum PromptType {
+public enum PromptTypeEntity {
     PROCENT, HIDE, TEXT, TIME;
     public static final String ERROR_MESSAGE = "Wrong prompt. This prompt doesn't exist";
 
-    public static PromptType getPromptTypeById(Integer promptId) {
+    public static PromptTypeEntity getPromptTypeById(Integer promptId) {
         switch (promptId) {
             case 1:
                 return PROCENT;

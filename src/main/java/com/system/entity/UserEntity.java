@@ -1,20 +1,23 @@
-package com.system.domain;
+package com.system.entity;
 
 import java.util.Set;
 
-public class User {
+public class UserEntity {
     private final Long id;
     private final String name;
     private final String email;
     private final String password;
-    private final Set<Role> roles;
+    private final Integer score;
+    private final Set<RoleEntity> roleEntities;
 
-    private User(Builder builder) {
+
+    private UserEntity(Builder builder) {
         this.id = builder.id;
         this.name = builder.name;
         this.email = builder.email;
         this.password = builder.password;
-        this.roles = builder.roles;
+        this.score = builder.score;
+        this.roleEntities = builder.roleEntities;
     }
 
     public static Builder builder() {
@@ -29,7 +32,8 @@ public class User {
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", roles=" + roles +
+                ", roles=" + roleEntities +
+                ", score=" + score +
                 '}';
     }
 
@@ -50,8 +54,12 @@ public class User {
         return password;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    public Integer getScore() {
+        return score;
+    }
+
+    public Set<RoleEntity> getRoleEntities() {
+        return roleEntities;
     }
 
     public static class Builder {
@@ -59,7 +67,8 @@ public class User {
         private String name;
         private String email;
         private String password;
-        private Set<Role> roles;
+        private Integer score;
+        private Set<RoleEntity> roleEntities;
 
         private Builder() {
         }
@@ -84,13 +93,18 @@ public class User {
             return this;
         }
 
-        public Builder withRoles(Set<Role> roles) {
-            this.roles = roles;
+        public Builder withScore(Integer score) {
+            this.score = score;
             return this;
         }
 
-        public User build() {
-            return new User(this);
+        public Builder withRoles(Set<RoleEntity> roleEntities) {
+            this.roleEntities = roleEntities;
+            return this;
+        }
+
+        public UserEntity build() {
+            return new UserEntity(this);
         }
     }
 }

@@ -1,6 +1,6 @@
-package com.system.domain;
+package com.system.entity;
 
-public class VariantQuestion {
+public class VariantQuestionEntity {
 
     private final Long questionId;
     private final String question;
@@ -13,7 +13,7 @@ public class VariantQuestion {
     private final String wrongAnswer3;
     private final Double wrongAnswer3Procent;
 
-    public VariantQuestion(Builder builder) {
+    public VariantQuestionEntity(Builder builder) {
         this.questionId = builder.questionId;
         this.question = builder.question;
         this.rightAnswer = builder.rightAnswer;
@@ -151,8 +151,8 @@ public class VariantQuestion {
             return this;
         }
 
-        public VariantQuestion build() {
-            return new VariantQuestion(this);
+        public VariantQuestionEntity build() {
+            return new VariantQuestionEntity(this);
         }
     }
 }
